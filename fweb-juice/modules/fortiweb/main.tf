@@ -54,3 +54,4 @@ resource "google_compute_instance" "fweb_instance" {
   // When Changing the machine_type, min_cpu_platform, service_account, or enable display on an instance requires stopping it
   allow_stopping_for_update = true
 }
+
