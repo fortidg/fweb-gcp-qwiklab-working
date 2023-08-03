@@ -1,7 +1,7 @@
-variable "project" {}
+variable "gcp_project_id" {}
 variable "name" {}
-variable "region" {}
-variable "zone" {}
+variable "gcp_region" {}
+variable "gcp_zone" {}
 variable "machine" {}
 variable "image" {}
 variable "license_file" {}

@@ -12,17 +12,17 @@ terraform {
 }
 
 provider "google" {
-  project = var.project
-  region  = var.region
-  zone    = var.zone
+  project = var.gcp_project_id
+  region  = var.gcp_region
+  zone    = var.gcp_zone
 }
 
 module "random" {
-  source = "../modules/random-generator"
+  source = "./modules/random-generator"
 }
 
 module "vpc" {
-  source = "../modules/vpc"
+  source = "./modules/vpc"
   # Pass Variables
   name = var.name
   vpcs = var.vpcs
@@ -31,11 +31,11 @@ module "vpc" {
 }
 
 module "subnet" {
-  source = "../modules/subnet"
+  source = "./modules/subnet"
 
   # Pass Variables
   name                     = var.name
-  region                   = var.region
+  region                   = var.gcp_region
   subnets                  = var.subnets
   subnet_cidrs             = var.subnet_cidrs
   private_ip_google_access = null
@@ -45,7 +45,7 @@ module "subnet" {
 }
 
 module "firewall" {
-  source = "../modules/firewall"
+  source = "./modules/firewall"
 
   # Values fetched from the Modules
   random_string = module.random.random_string
@@ -53,11 +53,11 @@ module "firewall" {
 }
 
 module "static-ip" {
-  source = "../modules/static-ip"
+  source = "./modules/static-ip"
 
   # Pass Variables
   name   = var.name
-  region = var.region
+  region = var.gcp_region
   # Values fetched from the Modules
   random_string = module.random.random_string
 }
@@ -70,11 +70,11 @@ data "google_compute_image" "fweb_image" {
 
 # FortiWeb
 module "instances" {
-  source = "../modules/fortiweb"
+  source = "./modules/fortiweb"
 
   # Pass Variables
   name         = var.name
-  zone         = var.zone
+  zone         = var.gcp_zone
   machine      = var.machine
   image        = data.google_compute_image.fweb_image.self_link
   license_file = var.license_file
@@ -104,10 +104,10 @@ module "gce-container" {
 }
 
 resource "google_compute_instance" "juice_shop" {
-  project      = var.project
+  project      = var.gcp_project_id
   name         = "${var.name}-juice-shop-${module.random.random_string}"
   machine_type = var.juice_shop_machine
-  zone         = var.zone
+  zone         = var.gcp_zone
 
   boot_disk {
     initialize_params {
