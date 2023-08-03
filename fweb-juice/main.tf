@@ -136,7 +136,7 @@ resource "google_compute_instance" "juice_shop" {
 
  resource "google_dns_managed_zone" "default" {
    name          = "fortiwebcloudtrain-zone"
-   dns_name      = "fortiwebcloudtrain-${module.random.random_string.random_name_post.result}.com"
+   dns_name      = "fwebcloudtrain-${module.random.random_string}.com."
    description   = "fortiweb public dns zone"
    force_destroy = "true"
  }
