@@ -14,7 +14,7 @@ resource "google_dns_record_set" "a-record" {
   ]
 }
 
-resource "google_dns_record_set" "ns-record" {
+/* resource "google_dns_record_set" "ns-record" {
   name         = google_dns_managed_zone.default.dns_name
   managed_zone = google_dns_managed_zone.default.name
   type         = "NS"
@@ -35,4 +35,4 @@ resource "google_dns_record_set" "soa-record" {
   rrdatas = [
    "ns-cloud-c1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
   ]
-}
+} */
