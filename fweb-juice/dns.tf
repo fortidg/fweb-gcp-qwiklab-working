@@ -27,7 +27,7 @@ resource "google_dns_record_set" "ns-record" {
   ]
 }
 
-resource "google_dns_record_set" "ns-record" {
+resource "google_dns_record_set" "soa-record" {
   name         = google_dns_managed_zone.default.dns_name
   managed_zone = google_dns_managed_zone.default.name
   type         = "SOA"
