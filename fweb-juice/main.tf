@@ -134,11 +134,10 @@ resource "google_compute_instance" "juice_shop" {
   }
 }
 
- resource "google_dns_managed_zone" "default" {
-   name          = "fortiwebcloudtrain-zone"
-   dns_name      = "fwebcloudtrain-${module.random.random_string}.com."
+ /* resource "google_dns_managed_zone" "default" {
+   name          = "${module.random.random_string}-fwebtraincse-zone"
+   dns_name      = "${module.random.random_string}.fwebcloudtrain.com."
    description   = "fortiweb public dns zone"
-   force_destroy = "true"
  }
 
 resource "google_dns_record_set" "default" {
@@ -149,4 +148,4 @@ resource "google_dns_record_set" "default" {
   rrdatas = [
     module.instances.fweb_ip
   ]
-}
+} */
