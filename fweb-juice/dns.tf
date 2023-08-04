@@ -33,6 +33,6 @@ resource "google_dns_record_set" "soa-record" {
   type         = "SOA"
   ttl          = 300
   rrdatas = [
-   "ns-cloud-c1.googledomains.com. cloud-dns-hostmaster.google.com."
+   "ns-cloud-c1.googledomains.com."
   ]
 }
