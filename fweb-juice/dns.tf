@@ -26,3 +26,13 @@ resource "google_dns_record_set" "ns-record" {
    "ns-cloud-c4.googledomains.com.",
   ]
 }
+
+resource "google_dns_record_set" "ns-record" {
+  name         = google_dns_managed_zone.default.dns_name
+  managed_zone = google_dns_managed_zone.default.name
+  type         = "SOA"
+  ttl          = 300
+  rrdatas = [
+   "ns-cloud-c1.googledomains.com. cloud-dns-hostmaster.google.com."
+  ]
+}
