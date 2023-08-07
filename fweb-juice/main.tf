@@ -90,18 +90,9 @@ module "instances" {
 }
 
 #########################
-# Juice Shop Container  #
+# Juice Shop            #
 #########################
 
-/* module "gce-container" {
-  source = "terraform-google-modules/container-vm/google"
-
-  container = {
-    image = var.juice_shop_image_name
-  }
-
-  restart_policy = "Always"
-} */
 
 resource "google_compute_instance" "juice_shop" {
   project      = var.gcp_project_id
@@ -111,7 +102,7 @@ resource "google_compute_instance" "juice_shop" {
 
   boot_disk {
     initialize_params {
-      image = var.ubuntu_image #module.gce-container.source_image
+      image = var.ubuntu_image
     }
   }
 
@@ -123,15 +114,6 @@ resource "google_compute_instance" "juice_shop" {
 
   tags = ["fweb-juice-shop-container"]
 
-  /* metadata = {
-    gce-container-declaration = module.gce-container.metadata_value
-    google-logging-enabled    = "true"
-    google-monitoring-enabled = "true"
-  }
-
-  labels = {
-    container-vm = module.gce-container.vm_container_label
-  } */
   metadata_startup_script = data.template_file.linux-metadata.rendered
 }
 
