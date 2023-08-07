@@ -93,7 +93,7 @@ module "instances" {
 # Juice Shop Container  #
 #########################
 
-module "gce-container" {
+/* module "gce-container" {
   source = "terraform-google-modules/container-vm/google"
 
   container = {
@@ -101,7 +101,7 @@ module "gce-container" {
   }
 
   restart_policy = "Always"
-}
+} */
 
 resource "google_compute_instance" "juice_shop" {
   project      = var.gcp_project_id
@@ -111,7 +111,7 @@ resource "google_compute_instance" "juice_shop" {
 
   boot_disk {
     initialize_params {
-      image = module.gce-container.source_image
+      image = var.ubuntu_image #module.gce-container.source_image
     }
   }
 
@@ -123,7 +123,7 @@ resource "google_compute_instance" "juice_shop" {
 
   tags = ["fweb-juice-shop-container"]
 
-  metadata = {
+  /* metadata = {
     gce-container-declaration = module.gce-container.metadata_value
     google-logging-enabled    = "true"
     google-monitoring-enabled = "true"
@@ -131,6 +131,23 @@ resource "google_compute_instance" "juice_shop" {
 
   labels = {
     container-vm = module.gce-container.vm_container_label
-  }
+  } */
+  metadata_startup_script = data.template_file.linux-metadata.rendered
+}
+
+# Bootstrapping Script to Install Apache
+data "template_file" "linux-metadata" {
+template = <<EOF
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install git
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+git clone https://github.com/srijaallam/juiceshop.git
+cd juiceshop
+chmod +x run-container.sh
+sudo ./run-container.sh
+EOF
 }
 
